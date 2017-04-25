@@ -13,14 +13,12 @@ const double PI  =3.141592653589793238463;
 
 double ProperMotion::ConvertRAToDegrees(double x, double y, double z)
 {
-	double w = (x + y/60  + z/3600)*15;
-	return w;
+	return (x + y/60  + z/3600)*15;
 }
 
 double ProperMotion::ConvertDecToDegrees(double a, double b, double c)
 {
-	double q = (a + b/60  + c/3600);
-	return q;
+	return (a + b/60  + c/3600);
 }
 
 std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double minuteRA,  \
