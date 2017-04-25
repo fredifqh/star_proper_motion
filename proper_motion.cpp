@@ -13,18 +13,14 @@ const double PI  =3.141592653589793238463;
 
 double ProperMotion::ConvertRAToDegrees(double x, double y, double z)
 {
-	x = hourRA;
-	y = minuteRA;
-	z = secondRA;
-	return (x + y/60  + z/3600)*15;
+	double w = (x + y/60  + z/3600)*15;
+	return w;
 }
 
 double ProperMotion::ConvertDecToDegrees(double a, double b, double c)
 {
-	a = degreDec;
-	b = minuteDec;
-	c = secondDec;
-	return (a + b/60  + c/3600);
+	double q = (a + b/60  + c/3600);
+	return q;
 }
 
 std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double minuteRA,  \
@@ -34,7 +30,7 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 	RA = ConvertRAToDegrees(hourRA, minuteRA, secondRA)*PI/180;
 	DEC = ConvertDecToDegrees(degreDec, minuteDec, secondDec)*PI/180;
 
-	cout << RA*180/PI << "\n" << DEC*180/PI << endl;
+	cout << setprecision (10) << RA*180/PI << "\n" << DEC*180/PI << endl;
 
 	m[0] = cos(DEC)*cos(RA);
 	m[1] = cos(DEC)*sin(RA);
@@ -55,9 +51,9 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 	RAinDegree = atan(v[1]/v[0])*180/PI;
 	DECinDegree = atan(v[2]/sqrt(pow(v[0],2) + pow(v[1],2)))*180/PI;
 
-	cout << RAinDegree << "\n" << DECinDegree << endl;
+	cout << setprecision (10) << RAinDegree << "\n" << DECinDegree << endl;
 
-	return ConvertDegRAtoRAcoord(RAinDegree);
+	return ConvertDegDEtoDEcoord(DECinDegree);
 } 
 
 std::vector<double> ProperMotion::ConvertDegRAtoRAcoord(double RAinDegree)

@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 	std::vector<double> k = ProperMotionResult.CalculateProperMotion(ProperMotionResult.hourRA, ProperMotionResult.minuteRA,  \
 		                                                             ProperMotionResult.secondRA, ProperMotionResult.degreDec,\
 		                                                             ProperMotionResult.minuteDec, ProperMotionResult.secondDec);
-	cout << k[0] << "\t" << k[1] << "\t" << k[2] << endl;
+	cout << setprecision (12) << k[0] << "\t" << k[1] << "\t" << k[2] << endl;
 	//std::copy(begin(k), end(k), std::ostream_iterator<double>(std::cout, " "));
 	return 0;
 }
