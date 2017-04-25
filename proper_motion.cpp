@@ -46,10 +46,21 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 	v[1] = m[1] + f*time*(A*radialVelocity*paralaxe*m[1] + muAlpha*n[1] + muDelta*p[1]);
 	v[2] = m[2] + f*time*(A*radialVelocity*paralaxe*m[2] + muAlpha*n[2] + muDelta*p[2]);
 	
-	RAinDegree = atan(v[1]/v[0])*180/PI;
-	DECinDegree = atan(v[2]/sqrt(pow(v[0],2) + pow(v[1],2)))*180/PI;
+	RAinDegree = atan2(v[1], v[0])*180/PI;
+	
+	if (RAinDegree < 0)
+	{
+		RAinDegree = RAinDegree + 360;
+	}
 
-	cout << setprecision (10) << RAinDegree << "\n" << DECinDegree << endl;
+	DECinDegree = atan2(v[2], sqrt(pow(v[0],2) + pow(v[1],2)))*180/PI;
+
+	if (DECinDegree < 0)
+	{
+		DECinDegree = DECinDegree + 360;
+	}
+
+	cout << setprecision (10) << RAinDegree << "\n" << DECinDegree << v[0] << v[1] << v[2] << endl;
 
 	return ConvertDegDEtoDEcoord(DECinDegree);
 } 
