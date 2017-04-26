@@ -10,6 +10,7 @@ using namespace std;
 const double f = 4.8481370e-9;
 const double A = 0.2109495266;
 const double PI  =3.141592653589793238463;
+double declina;
 
 double ProperMotion::ConvertRAToDegrees(double x, double y, double z)
 {
@@ -19,14 +20,14 @@ double ProperMotion::ConvertRAToDegrees(double x, double y, double z)
 double ProperMotion::ConvertDecToDegrees(double a, double b, double c)
 {
 	if (a >= 0){
-		return (a + b/60  + c/3600);
+		declina = (a + b/60  + c/3600);
 	}
 
 	if (a < 0){
-		return -1*(abs(a) + b/60  + c/3600);	
+		declina = -1*(abs(a) + b/60  + c/3600);	
 	}
 
-		return 0;
+	return declina;
 }
 
 std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double minuteRA,  \
@@ -36,7 +37,7 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 	RA = ConvertRAToDegrees(hourRA, minuteRA, secondRA)*PI/180;
 	DEC = ConvertDecToDegrees(degreDec, minuteDec, secondDec)*PI/180;
 
-	cout << setprecision (10) << RA*180/PI << "\n" << DEC*180/PI << endl;
+	cout << setprecision (10) << "Initial Righ Ascention in degrees = " << RA*180/PI << "\n" << "Initial Declination in degrees = " << DEC*180/PI << "\n";
 
 	m[0] = cos(DEC)*cos(RA);
 	m[1] = cos(DEC)*sin(RA);
@@ -55,7 +56,7 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 	v[2] = m[2] + f*time*(A*radialVelocity*paralaxe*m[2] + muAlpha*n[2] + muDelta*p[2]);
 	
 	RAinDegree = atan2(v[1], v[0])*180/PI;
-	
+
 	if (RAinDegree < 0)
 	{
 		RAinDegree = RAinDegree + 360;
@@ -63,10 +64,7 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 
 	DECinDegree = atan2(v[2], sqrt(pow(v[0],2) + pow(v[1],2)))*180/PI;
 
-	if (DECinDegree < 0)
-	{
-		DECinDegree = DECinDegree + 360;
-	}
+	cout << setprecision (10) << "Final Righ Ascention in degrees =" << RAinDegree << "\n" << "Final Declination in degrees =" << DECinDegree << "\n";
 
 	return ConvertDegRAtoRAcoord(RAinDegree, DECinDegree);
 } 
@@ -79,11 +77,23 @@ std::vector<double> ProperMotion::ConvertDegRAtoRAcoord(double RAinDegree, doubl
 	Final[1] = intpartminuteRA; // RA minutes
  	Final[2] = fracMinuRA*60;   // RA seconds
 
-	double fracHourDE = modf(DEinDegree, &intparthourDE);
-	Final[3] = intparthourDE;   // DE hours
-	double fracMinuDE = modf(fracHourDE*60, &intpartminuteDE);
-	Final[4] = intpartminuteDE; // DE minutes
- 	Final[5] = fracMinuDE*60;   // DE seconds
+ 	if (DEinDegree > 0)
+ 	{
+		double fracHourDE = modf(DEinDegree, &intparthourDE);
+		Final[3] = intparthourDE;   // DE hours
+		double fracMinuDE = modf(fracHourDE*60, &intpartminuteDE);
+		Final[4] = intpartminuteDE; // DE minutes
+	 	Final[5] = fracMinuDE*60;   // DE seconds
+ 	}
  	
+ 	if (DEinDegree < 0)
+ 	{
+		double fracHourDE = modf(abs(DEinDegree), &intparthourDE);
+		Final[3] = -1*intparthourDE;   // DE hours
+		double fracMinuDE = modf(fracHourDE*60, &intpartminuteDE);
+		Final[4] = intpartminuteDE; // DE minutes
+	 	Final[5] = fracMinuDE*60;   // DE seconds
+ 	}
+
  	return Final;
 }
