@@ -18,7 +18,15 @@ double ProperMotion::ConvertRAToDegrees(double x, double y, double z)
 
 double ProperMotion::ConvertDecToDegrees(double a, double b, double c)
 {
-	return (a + b/60  + c/3600);
+	if (a >= 0){
+		return (a + b/60  + c/3600);
+	}
+
+	if (a < 0){
+		return -1*(abs(a) + b/60  + c/3600);	
+	}
+
+		return 0;
 }
 
 std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double minuteRA,  \
@@ -60,27 +68,22 @@ std::vector<double> ProperMotion::CalculateProperMotion(double hourRA, double mi
 		DECinDegree = DECinDegree + 360;
 	}
 
-	cout << setprecision (10) << RAinDegree << "\n" << DECinDegree << v[0] << v[1] << v[2] << endl;
-
-	return ConvertDegDEtoDEcoord(DECinDegree);
+	return ConvertDegRAtoRAcoord(RAinDegree, DECinDegree);
 } 
 
-std::vector<double> ProperMotion::ConvertDegRAtoRAcoord(double RAinDegree)
-{
+std::vector<double> ProperMotion::ConvertDegRAtoRAcoord(double RAinDegree, double DEinDegree)
+{	
 	double fracHourRA = modf(RAinDegree/15,  &intparthourRA);
-	FinalRA[0] = intparthourRA;   // RA hours
+	Final[0] = intparthourRA;   // RA hours
 	double fracMinuRA = modf(fracHourRA*60,  &intpartminuteRA);
-	FinalRA[1] = intpartminuteRA; // RA minutes
- 	FinalRA[2] = fracMinuRA*60;   // RA seconds
- 	return FinalRA; 
-}
+	Final[1] = intpartminuteRA; // RA minutes
+ 	Final[2] = fracMinuRA*60;   // RA seconds
 
-std::vector<double> ProperMotion::ConvertDegDEtoDEcoord(double DEinDegree)
-{
 	double fracHourDE = modf(DEinDegree, &intparthourDE);
-	FinalDE[0] = intparthourDE;   // DE hours
+	Final[3] = intparthourDE;   // DE hours
 	double fracMinuDE = modf(fracHourDE*60, &intpartminuteDE);
-	FinalDE[1] = intpartminuteDE; // DE minutes
- 	FinalDE[2] = fracMinuDE*60;   // DE seconds
- 	return FinalDE;
+	Final[4] = intpartminuteDE; // DE minutes
+ 	Final[5] = fracMinuDE*60;   // DE seconds
+ 	
+ 	return Final;
 }

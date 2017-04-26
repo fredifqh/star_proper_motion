@@ -12,24 +12,25 @@ int main(int argc, char const *argv[])
 
 	ProperMotion ProperMotionResult;
 
-	ProperMotionResult.hourRA = 12;
-	ProperMotionResult.minuteRA = 25;
-	ProperMotionResult.secondRA = 32.1456;
-
-	ProperMotionResult.degreDec = 87;
-	ProperMotionResult.minuteDec = 43;
-	ProperMotionResult.secondDec = 22.105;
-
-	ProperMotionResult.radialVelocity = 50;
-	ProperMotionResult.muAlpha = -350;
-	ProperMotionResult.muDelta = 1270;
-	ProperMotionResult.paralaxe = 150;
-	ProperMotionResult.time = 200;
+	string program_name = argv[0];
+   	ProperMotionResult.hourRA = atof(argv[1]);  
+   	ProperMotionResult.minuteRA = atof(argv[2]);  
+   	ProperMotionResult.secondRA = atof(argv[3]); 
+   	ProperMotionResult.degreDec = atof(argv[4]); 
+   	ProperMotionResult.minuteDec = atof(argv[5]);     
+	ProperMotionResult.secondDec = atof(argv[6]); 
+	ProperMotionResult.radialVelocity = atof(argv[7]);
+	ProperMotionResult.muAlpha = atof(argv[8]);
+	ProperMotionResult.muDelta = atof(argv[9]);
+	ProperMotionResult.paralaxe = atof(argv[10]);
+	ProperMotionResult.time = atof(argv[11]);
 
 	std::vector<double> k = ProperMotionResult.CalculateProperMotion(ProperMotionResult.hourRA, ProperMotionResult.minuteRA,  \
 		                                                             ProperMotionResult.secondRA, ProperMotionResult.degreDec,\
 		                                                             ProperMotionResult.minuteDec, ProperMotionResult.secondDec);
-	cout << setprecision (12) << k[0] << "\t" << k[1] << "\t" << k[2] << endl;
+	cout << setprecision (12) << k[0] << "h" << "  " << k[1] << "m" << "  " <<  k[2] << "s" << "\n";
+	cout << setprecision (12) << k[3] << "h" << "  " << k[4] << "m" << "  " <<  k[5] << "s" << "\n";
+
 	//std::copy(begin(k), end(k), std::ostream_iterator<double>(std::cout, " "));
 	return 0;
 }

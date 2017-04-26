@@ -19,15 +19,14 @@ public:
 	std::vector<double> m = std::vector<double>(3); 
 	std::vector<double> n = std::vector<double>(3);
 	std::vector<double> p = std::vector<double>(3);
-	std::vector<double> FinalRA = std::vector<double>(3);
-	std::vector<double> FinalDE = std::vector<double>(3);
+	std::vector<double> Final = std::vector<double>(6);
 //public:
 	//ProperMotion();
 	//~ProperMotion();
 	double ConvertRAToDegrees(double, double, double); // Functio to convert Right Ascention (hours, minutes and seconds) to degrees
 	double ConvertDecToDegrees(double, double, double); // Functio to convert Declination (degrees, minutes and seconds) to degrees
-	std::vector<double> ConvertDegRAtoRAcoord(double); // Function to convert Degrees in hours, minutes and seconds
-	std::vector<double> ConvertDegDEtoDEcoord(double); // Function to convert Degrees in Degrees, minutes and seconds
+	std::vector<double> ConvertDegRAtoRAcoord(double, double); // Function to convert Degrees in hours, minutes and seconds
+//	std::vector<double> ConvertDegDEtoDEcoord(double); // Function to convert Degrees in Degrees, minutes and seconds
 	std::vector<double> CalculateProperMotion(double, double, double, double, double, double); // Function to get final proper motion
 };
 #endif
